@@ -3,7 +3,7 @@ const { resolve } = require('path');
 
 class DHT22 {
   async get() {
-    const myData = new Promise(resolve, () => {
+    const myData = new Promise((resolve) => {
       const sensor = {
         sensors: [
           {
