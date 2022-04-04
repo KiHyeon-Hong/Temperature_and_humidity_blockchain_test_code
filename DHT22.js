@@ -1,4 +1,4 @@
-// const sensorLib = require('node-dht-sensor');
+const sensorLib = require('node-dht-sensor');
 
 class DHT22 {
   get() {
