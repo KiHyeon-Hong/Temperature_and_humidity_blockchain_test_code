@@ -13,6 +13,7 @@ class DHT22 {
       read: function () {
         for (var index in this.sensors) {
           var s = sensorLib.read(this.sensors[index].type, this.sensors[index].pin);
+          console.log({ temperature: s.temperature.toFixed(1), humidity: s.humidity.toFixed(1) });
           return { temperature: s.temperature.toFixed(1), humidity: s.humidity.toFixed(1) };
         }
       },
