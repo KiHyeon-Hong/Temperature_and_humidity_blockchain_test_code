@@ -1,0 +1,70 @@
+###
+POST http://localhost:65011/register-and-broadcast-node HTTP/1.1
+Content-Type: application/json
+
+{
+    "newNodeUrl": "http://localhost:65012"
+}
+
+
+###
+POST http://localhost:65011/register-and-broadcast-node HTTP/1.1
+Content-Type: application/json
+
+{
+    "newNodeUrl": "http://localhost:65013"
+}
+
+
+###
+POST http://localhost:65011/register-and-broadcast-node HTTP/1.1
+Content-Type: application/json
+
+{
+    "newNodeUrl": "http://localhost:65014"
+}
+
+
+###
+POST http://localhost:65011/register-and-broadcast-node HTTP/1.1
+Content-Type: application/json
+
+{
+    "newNodeUrl": "http://localhost:65015"
+}
+
+
+###
+
+GET http://localhost:65011/blockchain HTTP/1.1
+
+###
+
+GET http://localhost:65012/blockchain HTTP/1.1
+
+###
+
+GET http://localhost:65013/blockchain HTTP/1.1
+
+
+###
+
+GET http://localhost:65014/blockchain HTTP/1.1
+
+
+###
+
+GET http://localhost:65015/blockchain HTTP/1.1
+
+
+
+###
+
+POST http://localhost:65011/transaction HTTP/1.1
+Content-Type: application/json
+
+
+###
+
+GET http://localhost:65015/consensus HTTP/1.1
+Content-Type: application/json
