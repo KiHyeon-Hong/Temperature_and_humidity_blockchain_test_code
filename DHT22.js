@@ -1,5 +1,4 @@
-const sensorLib = require('node-dht-sensor');
-const { resolve } = require('path');
+// const sensorLib = require('node-dht-sensor');
 
 class DHT22 {
   // async get() {
