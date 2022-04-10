@@ -7,6 +7,8 @@ const dht22 = new DHT22();
 const { v1 } = require('uuid');
 const rp = require('request-promise');
 const bodyParser = require('body-parser');
+const request = require('request');
+const ip = require('ip');
 
 const Blockchain = require(__dirname + '/blockchain');
 const bitcoin = new Blockchain();
@@ -69,7 +71,7 @@ app.post('/register-and-broadcast-node', (req, res) => {
   // 노드를 등록하고, 해당 노드를 전체 네트워크에 브로드캐스트
   const newNodeUrl = req.body.newNodeUrl;
 
-  if (bitcoin.networkNodes.indexOf(newNodeUrl) === -1) {
+  if (bitcoin.networkNodes.indexOf(newNodeUrl) === -1 && bitcoin.currentNodeUrl !== newNodeUrl) {
     bitcoin.networkNodes.push(newNodeUrl);
   }
 
@@ -239,6 +241,32 @@ app.get('/address/:address', function (req, res) {
 //   res.sendFile('./block-explorer/index.html', { root: __dirname });
 // });
 
+const check = () => {
+  request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {
+    console.log(body);
+  });
+  setTimeout(check, 10000);
+};
+
 app.listen(port, () => {
   console.log(`Server runnint at ${port}`);
+
+  const options = {
+    uri: `http://${ip.address()}:65011` + '/register-and-broadcast-node',
+    method: 'POST',
+    form: {
+      newNodeUrl: `http://${ip.address()}:${port}`,
+    },
+  };
+
+  if (port === '65011') {
+    check();
+  }
+
+  request.post(options, function (error, response, body) {
+    console.log(body);
+    request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {
+      console.log(body);
+    });
+  });
 });
