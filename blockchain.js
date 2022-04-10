@@ -1,7 +1,8 @@
 const sha256 = require('sha256');
 const { v1 } = require('uuid');
+const ip = require('ip');
 
-const currentNodeUrl = process.argv[3];
+const currentNodeUrl = `http://${ip.address()}:${process.argv[2]}`;
 
 class Blockchain {
   constructor() {
