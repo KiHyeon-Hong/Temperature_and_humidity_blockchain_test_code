@@ -49,10 +49,11 @@ class Blockchain {
   }
 
   // 새로운 트래잭션을 생성하는 메소드
-  createNewTransaction(temperature, humidity) {
+  createNewTransaction(temperature, humidity, date) {
     const newTransaction = {
       temperature: temperature,
       humidity: humidity,
+      date: date,
     };
 
     /*

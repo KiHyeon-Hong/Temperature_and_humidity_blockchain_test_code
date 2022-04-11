@@ -29,7 +29,8 @@ app.get('/blockchain', (req, res) => {
 app.post('/transaction', async (req, res) => {
   const data = await dht22.get();
   console.log(data);
-  const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity);
+
+  const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity, data.date);
   bitcoin.addTransactionToPendingTransactions(newTransaction);
 
   const nodeAddress = v1().split('-').join('');
@@ -237,9 +238,9 @@ app.get('/address/:address', function (req, res) {
 });
 
 // 블록 탐색기 접속
-// app.get('/block-explorer', function (req, res) {
-//   res.sendFile('./block-explorer/index.html', { root: __dirname });
-// });
+app.get('/block-explorer', function (req, res) {
+  res.sendFile('./block-explorer/index.html', { root: __dirname });
+});
 
 const check = () => {
   request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {
