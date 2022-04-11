@@ -251,6 +251,7 @@ const check = () => {
 app.listen(port, () => {
   console.log(`Server runnint at ${port}`);
 
+  // 다른 IP를 갖는 블록체인 노드와 연결하고 싶을 경우, ip.address()를 변경한다.
   const options = {
     uri: `http://${ip.address()}:65011` + '/register-and-broadcast-node',
     method: 'POST',
