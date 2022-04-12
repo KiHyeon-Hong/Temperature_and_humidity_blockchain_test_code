@@ -247,8 +247,6 @@ app.get('/date/:date', function (req, res) {
   const date = req.params.date;
   const dateData = bitcoin.getdateData(date);
 
-  console.log(dateData);
-
   res.json({
     dateData: dateData,
   });
