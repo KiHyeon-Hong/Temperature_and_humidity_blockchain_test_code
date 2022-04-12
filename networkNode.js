@@ -4,7 +4,6 @@ const app = express();
 const { DHT22 } = require(__dirname + '/DHT22.js');
 const dht22 = new DHT22();
 
-const { v1 } = require('uuid');
 const rp = require('request-promise');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -30,10 +29,8 @@ app.post('/transaction', async (req, res) => {
   const data = await dht22.get();
   console.log(data);
 
-  const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity, data.date);
+  const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity, data.date, data.room);
   bitcoin.addTransactionToPendingTransactions(newTransaction);
-
-  const nodeAddress = v1().split('-').join('');
 
   const lastBlock = bitcoin.getLastBlock();
   const previousBlockHash = lastBlock['hash'];
@@ -243,9 +240,7 @@ app.get('/block-explorer', function (req, res) {
 });
 
 const check = () => {
-  request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {
-    console.log(body);
-  });
+  request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {});
   setTimeout(check, 10000);
 };
 
@@ -266,7 +261,6 @@ app.listen(port, () => {
   }
 
   request.post(options, function (error, response, body) {
-    console.log(body);
     request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {
       console.log(body);
     });

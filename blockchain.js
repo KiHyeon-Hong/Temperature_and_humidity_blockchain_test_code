@@ -1,5 +1,4 @@
 const sha256 = require('sha256');
-const { v1 } = require('uuid');
 const ip = require('ip');
 
 const currentNodeUrl = `http://${ip.address()}:${process.argv[2]}`;
@@ -49,11 +48,12 @@ class Blockchain {
   }
 
   // 새로운 트래잭션을 생성하는 메소드
-  createNewTransaction(temperature, humidity, date) {
+  createNewTransaction(temperature, humidity, date, room) {
     const newTransaction = {
       temperature: temperature,
       humidity: humidity,
       date: date,
+      room: room,
     };
 
     /*

@@ -3,7 +3,7 @@
 function getDate() {
   const d = new Date();
 
-  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+  return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
 }
 
 class DHT22 {
@@ -20,7 +20,7 @@ class DHT22 {
   //       read: function () {
   //         for (var index in this.sensors) {
   //           var s = sensorLib.read(this.sensors[index].type, this.sensors[index].pin);
-  //           resolve({ temperature: s.temperature.toFixed(1), humidity: s.humidity.toFixed(1) });
+  //           resolve({ temperature: s.temperature.toFixed(1), humidity: s.humidity.toFixed(1), date: getDate(), room: 219 });
   //         }
   //       },
   //     };
@@ -30,7 +30,7 @@ class DHT22 {
   // }
 
   async get() {
-    return await { temperature: 20, humidity: 50, date: getDate() };
+    return await { temperature: 20, humidity: 50, date: getDate(), room: 219 };
   }
 }
 
