@@ -187,7 +187,22 @@ class Blockchain {
     };
   }
 
-  getDateData(date) {}
+  getdateData(date) {
+    let dateTransaction = [];
+
+    this.chain.forEach((block) => {
+      if (block.hash !== '0') {
+        let tempDate = block.transactions[0].date.split(' ')[0];
+        tempDate = tempDate.split('/').join('');
+
+        if (tempDate === date) dateTransaction.push(block.transactions);
+      }
+    });
+
+    return {
+      dateTransaction: dateTransaction,
+    };
+  }
 }
 
 module.exports = Blockchain;

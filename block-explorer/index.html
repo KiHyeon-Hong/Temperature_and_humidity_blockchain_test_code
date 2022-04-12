@@ -133,6 +133,26 @@
               </tr>
             </tbody>
           </table>
+
+          <h3 class="table-title" ng-if="dateData">Room</h3>
+          <table class="table table-striped" ng-if="dateData">
+            <thead>
+              <tr>
+                <th scope="col">room</th>
+                <th scope="col">date</th>
+                <th scope="col">temperature</th>
+                <th scope="col">humidity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="transaction in dateData.dateTransaction">
+                <td>{{ transaction[0].room }}</td>
+                <td>{{ transaction[0].date }}</td>
+                <td>{{ transaction[0].temperature }}</td>
+                <td>{{ transaction[0].humidity }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -153,6 +173,7 @@
             $scope.addressData = null;
 
             $scope.roomData = null;
+            $scope.dateData = null;
           });
         };
 
@@ -163,6 +184,7 @@
             $scope.addressData = null;
 
             $scope.roomData = null;
+            $scope.dateData = null;
           });
         };
 
@@ -174,6 +196,7 @@
             $scope.transaction = null;
 
             $scope.roomData = null;
+            $scope.dateData = null;
           });
         };
 
@@ -184,11 +207,20 @@
             $scope.block = null;
             $scope.addressData = null;
             $scope.transaction = null;
+            $scope.dateData = null;
           });
         };
 
         $scope.fetchDateData = function (date) {
-          $http.get(`/date/${date}`).then((response) => {});
+          $http.get(`/date/${date}`).then((response) => {
+            $scope.dateData = response.data.dateData;
+
+            $scope.roomData = null;
+
+            $scope.block = null;
+            $scope.addressData = null;
+            $scope.transaction = null;
+          });
         };
 
         $scope.search = function (searchValue) {

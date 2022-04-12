@@ -245,7 +245,13 @@ app.get('/room/:room', function (req, res) {
 
 app.get('/date/:date', function (req, res) {
   const date = req.params.date;
-  console.log('date: ' + date);
+  const dateData = bitcoin.getdateData(date);
+
+  console.log(dateData);
+
+  res.json({
+    dateData: dateData,
+  });
 });
 
 // 블록 탐색기 접속
