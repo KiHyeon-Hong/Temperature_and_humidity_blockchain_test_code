@@ -234,6 +234,20 @@ app.get('/address/:address', function (req, res) {
   });
 });
 
+app.get('/room/:room', function (req, res) {
+  const room = req.params.room;
+  const roomData = bitcoin.getRoomData(room);
+
+  res.json({
+    roomData: roomData,
+  });
+});
+
+app.get('/date/:date', function (req, res) {
+  const date = req.params.date;
+  console.log('date: ' + date);
+});
+
 // 블록 탐색기 접속
 app.get('/block-explorer', function (req, res) {
   res.sendFile('./block-explorer/index.html', { root: __dirname });

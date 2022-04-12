@@ -172,6 +172,22 @@ class Blockchain {
       addressBalance: balance,
     };
   }
+
+  getRoomData(room) {
+    let roomTransaction = [];
+
+    this.chain.forEach((block) => {
+      if (block.hash !== '0') {
+        if (block.transactions[0].room === parseInt(room)) roomTransaction.push(block.transactions);
+      }
+    });
+
+    return {
+      roomTransaction: roomTransaction,
+    };
+  }
+
+  getDateData(date) {}
 }
 
 module.exports = Blockchain;
