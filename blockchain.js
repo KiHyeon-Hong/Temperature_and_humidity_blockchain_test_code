@@ -15,7 +15,15 @@ class Blockchain {
     this.networkNodes = [];
 
     // 제네시스 블록
-    this.createNewBlock(100, '0', '0');
+    this.pushBlock(this.createNewBlock(100, '0', '0'));
+  }
+
+  resetTransaction() {
+    this.pendingTransactions = [];
+  }
+
+  pushBlock(newBlock) {
+    this.chain.push(newBlock);
   }
 
   // 새로운 블록을 생성하는 메소드
@@ -38,7 +46,7 @@ class Blockchain {
     };
 
     this.pendingTransactions = []; // BlockChain 초기화
-    this.chain.push(newBlock); // 새로운 블록을 체인에 추가
+    // this.chain.push(newBlock); // 새로운 블록을 체인에 추가
     return newBlock;
   }
 

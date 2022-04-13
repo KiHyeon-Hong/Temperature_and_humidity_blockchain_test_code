@@ -56,11 +56,17 @@ app.post('/transaction', async (req, res) => {
     requestPromises.push(rp(requestOptions));
   });
 
+  let flag = true;
+
   Promise.all(requestPromises).then((data) => {
+    bitcoin.pushBlock(newBlock);
+
     res.json({
       note: 'New block mined & broadcast successfully',
       block: newBlock,
     });
+
+    request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {});
   });
 });
 
@@ -149,11 +155,15 @@ app.post('/receive-new-block', (req, res) => {
     bitcoin.chain.push(newBlock);
     bitcoin.pendingTransactions = [];
 
+    request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {});
+
     res.json({
       note: 'New block received and accepted.',
       newBlock: newBlock,
     });
   } else {
+    request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {});
+
     res.json({
       note: 'New block rejected',
       newBlock: newBlock,
@@ -268,6 +278,7 @@ app.listen(port, () => {
   // 다른 IP를 갖는 블록체인 노드와 연결하고 싶을 경우, ip.address()를 변경한다.
   const options = {
     uri: `http://${ip.address()}:65011` + '/register-and-broadcast-node',
+    // uri: `http://172.16.23.63:65011` + '/register-and-broadcast-node',
     method: 'POST',
     form: {
       newNodeUrl: `http://${ip.address()}:${port}`,
