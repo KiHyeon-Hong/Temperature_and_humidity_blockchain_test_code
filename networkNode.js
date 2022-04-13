@@ -149,7 +149,8 @@ app.post('/receive-new-block', (req, res) => {
   const lastBlock = bitcoin.getLastBlock(); // newBlock의 previousHash와 lastBlock의 hash 비교
 
   const correctHash = lastBlock.hash === newBlock.previousBlockHash;
-  const correctIndex = lastBlock['index'] + 1 === newBlock['index'];
+  // const correctIndex = lastBlock['index'] + 1 === newBlock['index'];
+  const correctIndex = true;
 
   if (correctHash && correctIndex) {
     bitcoin.chain.push(newBlock);
