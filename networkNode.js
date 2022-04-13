@@ -270,7 +270,7 @@ app.get('/block-explorer', function (req, res) {
 
 const check = () => {
   request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {});
-  setTimeout(check, 10000);
+  setTimeout(check, 60000);
 };
 
 app.listen(port, () => {
