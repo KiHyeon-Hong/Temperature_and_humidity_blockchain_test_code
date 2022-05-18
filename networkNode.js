@@ -279,7 +279,7 @@ app.listen(port, () => {
   // 다른 IP를 갖는 블록체인 노드와 연결하고 싶을 경우, ip.address()를 변경한다.
   const options = {
     uri: `http://${ip.address()}:65011` + '/register-and-broadcast-node',
-    // uri: `http://172.16.23.63:65011` + '/register-and-broadcast-node',
+    // uri: `http://192.168.0.102:65011` + '/register-and-broadcast-node',
     method: 'POST',
     form: {
       newNodeUrl: `http://${ip.address()}:${port}`,
@@ -289,6 +289,8 @@ app.listen(port, () => {
   if (port === '65011') {
     check();
   }
+
+  console.log(ip.address());
 
   request.post(options, function (error, response, body) {
     request.get(`http://${ip.address()}:${port}/consensus`, function (error, response, body) {
