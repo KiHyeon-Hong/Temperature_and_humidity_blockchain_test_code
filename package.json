@@ -9,7 +9,8 @@
     "node2": "nodemon --watch dev -e js networkNode.js 65012",
     "node3": "nodemon --watch dev -e js networkNode.js 65013",
     "node4": "nodemon --watch dev -e js networkNode.js 65014",
-    "node5": "nodemon --watch dev -e js networkNode.js 65015"
+    "node5": "nodemon --watch dev -e js networkNode.js 65015",
+    "node6": "nodemon --watch dev -e js networkNode.js 65016"
   },
   "author": "",
   "license": "ISC",

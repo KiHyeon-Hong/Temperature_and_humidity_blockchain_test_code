@@ -1,10 +1,13 @@
 const request = require('request');
 const fs = require('fs');
 
-let length = 10;
+fs.writeFileSync(__dirname + '/files/data.csv', 'Num of block,Count,Time\n', 'utf8');
+
+let length = 100;
+let flag = 0;
 
 async function main() {
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 100; i++) {
     console.log(await test());
   }
 }
@@ -22,15 +25,15 @@ function registration() {
 }
 
 function consensus() {
-  const registrationRequest = () => {
+  const consensusRequest = () => {
     return new Promise((resolve) => {
-      request.post(`http://localhost:65011/consensus`, function (error, response, body) {
+      request.get(`http://localhost:65011/consensus`, function (error, response, body) {
         resolve(body);
       });
     });
   };
 
-  return registrationRequest();
+  return consensusRequest();
 }
 
 function test() {
@@ -40,9 +43,16 @@ function test() {
         await registration();
       }
 
-      let start = new Date();
-      await consensus();
-      resolve(new Date() - start);
+      flag += length;
+
+      let start = 0;
+      for (let i = 0; i < 10; i++) {
+        start = new Date();
+        console.log(await consensus());
+        fs.appendFileSync(__dirname + '/files/data.csv', `${flag},${i + 1},${new Date() - start}\n`, 'utf8');
+      }
+
+      resolve();
     });
   };
 

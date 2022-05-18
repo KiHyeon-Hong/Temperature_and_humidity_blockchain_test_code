@@ -27,7 +27,7 @@ app.get('/blockchain', (req, res) => {
 
 app.post('/transaction', async (req, res) => {
   const data = await dht22.get();
-  console.log(data);
+  // console.log(data);
 
   const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity, data.date, data.room);
   bitcoin.addTransactionToPendingTransactions(newTransaction);
