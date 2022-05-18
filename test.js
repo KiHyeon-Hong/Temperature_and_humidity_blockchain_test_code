@@ -7,7 +7,7 @@ let length = 100;
 let flag = 0;
 
 async function main() {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     console.log(await test());
   }
 }
@@ -52,7 +52,7 @@ function test() {
         fs.appendFileSync(__dirname + '/files/data.csv', `${flag},${i + 1},${new Date() - start}\n`, 'utf8');
       }
 
-      resolve();
+      resolve(flag);
     });
   };
 
