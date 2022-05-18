@@ -287,7 +287,7 @@ app.listen(port, () => {
   };
 
   if (port === '65011') {
-    check();
+    // check();
   }
 
   console.log(ip.address());
