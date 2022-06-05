@@ -1,4 +1,4 @@
-// const sensorLib = require('node-dht-sensor');
+const sensorLib = require('node-dht-sensor');
 
 function getDate() {
   const d = new Date();
@@ -7,7 +7,6 @@ function getDate() {
 }
 
 class DHT22 {
-  /*
   async get() {
     const myData = new Promise((resolve) => {
       const sensor = {
@@ -29,11 +28,10 @@ class DHT22 {
     });
     return await myData;
   }
-  */
 
-  async get() {
-    return await { temperature: 20, humidity: 50, date: getDate(), room: 220 };
-  }
+  // async get() {
+  //   return await { temperature: 20, humidity: 50, date: getDate(), room: 220 };
+  // }
 }
 
 module.exports.DHT22 = DHT22;
