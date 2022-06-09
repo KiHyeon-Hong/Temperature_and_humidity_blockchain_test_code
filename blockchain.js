@@ -1,9 +1,15 @@
+/*
+ * 온습도 블록체인 데이터 구조 모듈
+ */
+
 const sha256 = require('sha256');
 const ip = require('ip');
 
 const currentNodeUrl = `http://${ip.address()}:${process.argv[2]}`;
 
+// 온습도 블록체인 class
 class Blockchain {
+  // 온습도 블록체인 생성자
   constructor() {
     this.chain = []; // 채굴한 모든 블록들은 배열 안에 체인으로 저장
     this.pendingTransactions = []; // 블록에 아직 저장되지 않은 모든 트랜잭션들
@@ -18,15 +24,17 @@ class Blockchain {
     this.pushBlock(this.createNewBlock(100, '0', '0'));
   }
 
+  // 트랜잭션 초기화 메소드
   resetTransaction() {
     this.pendingTransactions = [];
   }
 
+  // 블록 추가 메소드
   pushBlock(newBlock) {
     this.chain.push(newBlock);
   }
 
-  // 새로운 블록을 생성하는 메소드
+  // 새로운 블록 생성 메소드
   createNewBlock(nonce, previousBlockHash, hash) {
     /*
      * index: 블록 넘버
@@ -72,11 +80,13 @@ class Blockchain {
     return newTransaction;
   }
 
+  // 트랜잭션 추가 메소드
   addTransactionToPendingTransactions(transactionObj) {
     this.pendingTransactions.push(transactionObj);
     return this.getLastBlock()['index'] + 1;
   }
 
+  // 해시 계산 메소드
   hashBlock(previousBlockHash, currentBlockData, nonce) {
     // currentBlockData는 JSON인데 stringify로 문자열로 변경
     const dataAsString = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
@@ -84,9 +94,12 @@ class Blockchain {
     return hash;
   }
 
+  // 합의 알고리즘 메소드
   proofOfWork(previousBlockHash, currentBlockData) {
     let nonce = 0;
     let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
+
+    // 계산된 해시 값의 앞 4글자가 0000이 되는 nonce를 찾는다.
     while (hash.substring(0, 4) !== '0000') {
       nonce++;
       hash = this.hashBlock(previousBlockHash, currentBlockData, nonce);
@@ -95,7 +108,6 @@ class Blockchain {
   }
 
   // 합의 알고리즘
-  // 마지막 노드 해시 검사 하지 않음, 추가 예정
   chainIsValid(blockchain) {
     let validChain = true;
     for (let i = 1; i < blockchain.length; i++) {
@@ -104,9 +116,12 @@ class Blockchain {
 
       const blockHash = this.hashBlock(prevBlock['hash'], { transactions: currentBlock['transactions'], index: currentBlock['index'] }, currentBlock['nonce']);
 
+      // 이전 블록의 해시와 현재 블록의 이전 블록 해시를 비교한다.
       if (currentBlock['previousBlockHash'] !== prevBlock['hash']) {
         validChain = false;
       }
+
+      // 해시값의 앞 4개가 0인지 확인한다.
       if (blockHash.substring(0, 4) !== '0000') {
         validChain = false;
       }
@@ -121,6 +136,7 @@ class Blockchain {
     const correctHash = genesisBlock['hash'] === '0';
     const correctTransactions = genesisBlock['transactions'].length === 0;
 
+    // 제네시스 블록을 검증한다.
     if (!correctNonce || !correctPreviousBlockHash || !correctHash || !correctTransactions) {
       validChain = false;
     }
@@ -128,7 +144,7 @@ class Blockchain {
     return validChain;
   }
 
-  // 블록탐색기 메소드
+  // 온습도 블록을 반환한다.
   getBlock(blockHash) {
     let correctBlock = null;
     this.chain.forEach((block) => {
@@ -159,6 +175,7 @@ class Blockchain {
     };
   }
 
+  // ㅁㄴㅇ
   getAddressData(address) {
     const addressTransactions = [];
     this.chain.forEach((block) => {

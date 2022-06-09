@@ -1,3 +1,7 @@
+/*
+ * 온습도 블록체인 네트워크 모듈
+ */
+
 const express = require('express');
 const app = express();
 
@@ -21,14 +25,17 @@ app.use(
   })
 );
 
+// 블록체인 반환 API
 app.get('/blockchain', (req, res) => {
   res.send(bitcoin);
 });
 
+// 온습도 블록 생성 및 배포 API
 app.post('/transaction', async (req, res) => {
+  // 온습도 데이터 측정
   const data = await dht22.get();
-  // console.log(data);
 
+  // 온습도 블록 생성
   const newTransaction = bitcoin.createNewTransaction(data.temperature, data.humidity, data.date, data.room);
   bitcoin.addTransactionToPendingTransactions(newTransaction);
 
@@ -44,6 +51,7 @@ app.post('/transaction', async (req, res) => {
   const blockHash = bitcoin.hashBlock(previousBlockHash, currentBlockData, nonce);
   const newBlock = bitcoin.createNewBlock(nonce, previousBlockHash, blockHash);
 
+  // 온습도 블록체인 배포
   const requestPromises = [];
   bitcoin.networkNodes.forEach((networkNodeUrl) => {
     const requestOptions = {
@@ -70,7 +78,7 @@ app.post('/transaction', async (req, res) => {
   });
 });
 
-// 분산을 위한 엔트포인트
+// 온습도 블록체인 노드 등록 요청 API
 app.post('/register-and-broadcast-node', (req, res) => {
   // 노드를 등록하고, 해당 노드를 전체 네트워크에 브로드캐스트
   const newNodeUrl = req.body.newNodeUrl;
@@ -110,6 +118,7 @@ app.post('/register-and-broadcast-node', (req, res) => {
     });
 });
 
+// 온습도 블록체인 노드 등록 요청 API
 app.post('/register-node', (req, res) => {
   // 네트워크에 노드를 등록
   const newNodeUrl = req.body.newNodeUrl;
@@ -126,6 +135,7 @@ app.post('/register-node', (req, res) => {
   });
 });
 
+// 온습도 블록체인 노드 등록 요청 API
 app.post('/register-nodes-bulk', (req, res) => {
   // 한번에 여러 노드를 등록
   const allNetworkNodes = req.body.allNetworkNodes;
@@ -144,12 +154,12 @@ app.post('/register-nodes-bulk', (req, res) => {
   });
 });
 
+// 온습도 블록 배포 API
 app.post('/receive-new-block', (req, res) => {
   const newBlock = req.body.newBlock;
   const lastBlock = bitcoin.getLastBlock(); // newBlock의 previousHash와 lastBlock의 hash 비교
 
   const correctHash = lastBlock.hash === newBlock.previousBlockHash;
-  // const correctIndex = lastBlock['index'] + 1 === newBlock['index'];
   const correctIndex = true;
 
   if (correctHash && correctIndex) {
@@ -172,7 +182,7 @@ app.post('/receive-new-block', (req, res) => {
   }
 });
 
-// 합의 알고리즘 엔드포인트
+// 합의 알고리즘 API
 // 이미 동작중인 블록체인 네트워크에서 가장 신뢰할 수 있는 블록체인을 받아옴
 app.get('/consensus', (req, res) => {
   const requestPromises = [];
@@ -263,14 +273,15 @@ app.get('/date/:date', function (req, res) {
   });
 });
 
-// 블록 탐색기 접속
+// 블록 탐색기 접속 API
 app.get('/block-explorer', function (req, res) {
   res.sendFile('./block-explorer/index.html', { root: __dirname });
 });
 
+// 온습도 데이터 측정 요청 메소드
 const check = () => {
   request.post(`http://${ip.address()}:${port}/transaction`, function (error, response, body) {});
-  setTimeout(check, 60000);
+  setTimeout(check, 6000);
 };
 
 app.listen(port, () => {
@@ -287,7 +298,7 @@ app.listen(port, () => {
   };
 
   if (port === '65011') {
-    // check();
+    check();
   }
 
   console.log(ip.address());
