@@ -2,7 +2,7 @@
 
 ### 블록 수에 따른 노드 간 동기화 시간 측정 실험
 
-#### 데이터 파일
+#### 실험 결과 데이터 파일
 
 - https://kihyeon-hong.github.io/Temperature_and_humidity_blockchain_test_code/files/synchronization_node2.csv
 - https://kihyeon-hong.github.io/Temperature_and_humidity_blockchain_test_code/files/synchronization_node6.csv
